@@ -125,7 +125,7 @@ class BlackjackEnv(gym.Env):
         return self._get_obs(), reward, done, {}
 
     def _get_obs(self):
-        return spaces.MultiDiscrete([sum_hand(self.player), self.dealer[0], 0 if usable_ace(self.player) else 1])
+        return [sum_hand(self.player), self.dealer[0], 0 if usable_ace(self.player) else 1]
 
     def reset(self):
         self.dealer = draw_hand(self.np_random)
