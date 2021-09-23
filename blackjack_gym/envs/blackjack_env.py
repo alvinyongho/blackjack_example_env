@@ -71,9 +71,9 @@ class BlackjackEnv(gym.Env):
         self.action_space = spaces.Discrete(2)
 
         self.observation_space = spaces.MultiDiscrete([
-          (1, 32),
-          (1, 11),
-          (0,1),
+          32,
+          11,
+          2,
         ])
 
         # Allows running in parallel
