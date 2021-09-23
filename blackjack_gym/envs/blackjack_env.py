@@ -10,7 +10,6 @@ def cmp(a, b):
 # 1 = Ace, 2-10 = Number cards, Jack/Queen/King = 10
 deck = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
-
 def draw_card(np_random):
     return int(np_random.choice(deck))
 
@@ -71,9 +70,11 @@ class BlackjackEnv(gym.Env):
         # Hit (1), Stand (0)
         self.action_space = spaces.Discrete(2)
 
-        self.observation_space = spaces.Tuple(
-            (spaces.Discrete(32), spaces.Discrete(11), spaces.Discrete(2))
-        )
+        self.observation_space = spaces.MultiDiscrete([
+          (1, 32),
+          (1, 11),
+          (0,1),
+        ])
 
         # Allows running in parallel
         self.seed()
@@ -124,7 +125,7 @@ class BlackjackEnv(gym.Env):
         return self._get_obs(), reward, done, {}
 
     def _get_obs(self):
-        return (sum_hand(self.player), self.dealer[0], usable_ace(self.player))
+        return (sum_hand(self.player), self.dealer[0], 0 if usable_ace(self.player) else 1)
 
     def reset(self):
         self.dealer = draw_hand(self.np_random)
